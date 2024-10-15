@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:  "Red Hat Text", sans-serif;
+    font-size: 16px;
+}
+
+.container {
+    padding:60px;
+    display: flex;
+    justify-content: center;
+}
+
+.desserts {
+    width: 950px;
+}
+
+.desserts h1 {
+    margin-bottom: 20px;
+}
+
+.menu-box {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.item {
+    width: 170px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.item > img {
+    width: 100%;
+}
+
+.order-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 15px;
+    border-radius: 50px;
+    border: 1px solid black;
+    width: fit-content;
+    position: relative;
+    margin: -25px auto 0 auto;
+    background-color: aliceblue;
+    z-index: 10;
+    
+}
+
+.order-box > img {
+    width: 16px;
+    margin-right:5px ;
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 20px;
+}
+
+.cart {
+    width: 350px;
+    height: fit-content;
+    background-color: aqua;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.cart-no-item img {
+
+    display: block;
+    margin: 20px auto 20px auto ;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid black;
+}
+
+.cart-text {
+    display: block;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.cart-value {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cart-remove-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 1px solid black;
+}
+
+.order-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+}
+
+.delivery {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: aquamarine;
+    margin: 0 auto 15px auto;
+}
+
+.confirm-order {
+    margin: auto;
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 30px;
+    outline: none;
+    border: 1px solid black;
+    font-family:  "Red Hat Text", sans-serif;
+    
+}
