@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product list with cart</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
 <body>
     
@@ -183,9 +184,9 @@
                                 <div class="cart-item-name">Vanilla Panna Cotta</div>
                                 <div class="cart-value"><span class="quantity">x1</span><span class="cart-price">@ $6.50</span><span class="amount">$6.50</span></div>
                             </div>
-                            <div class="cart-remove-item">
-                                <img src="./assets/images/icon-remove-item.svg" alt="">
-                            </div>
+                            
+                                <i class="fa-regular fa-circle-xmark"></i>
+                            
                         </div>
     
                         <div class="cart-item">
@@ -193,9 +194,9 @@
                                 <div class="cart-item-name">Vanilla Panna Cotta</div>
                                 <div class="cart-value"><span class="quantity">x1</span><span class="cart-price">@ $6.50</span><span class="amount">$6.50</span></div>
                             </div>
-                            <div class="cart-remove-item">
-                                <img src="./assets/images/icon-remove-item.svg" alt="">
-                            </div>
+                            
+                                <i class="fa-regular fa-circle-xmark"></i>
+                            
                         </div>
                     </div>
                     
@@ -203,7 +204,7 @@
                     <div class="order-total">Order Total <span>$223</span></div>
 
                     <!-- Delivery -->
-                    <div class="delivery"><img src="./assets/images/icon-carbon-neutral.svg" alt="">This is a carbon natural delivary.</div>
+                    <div class="delivery"><img src="./assets/images/icon-carbon-neutral.svg" alt="">This is a <span>carbon-natural</span> delivary</div>
 
                     <!-- Confirm Order -->
                     <button class="confirm-order">Confirm Order</button>
@@ -211,8 +212,42 @@
             </div>
 
     </section>
-    <div class="">
 
+    <!-- Confirmation Box -->
+    <div class="overlay">
+        <div class="order-confirmation">
+
+            <div class="order-confirm-icon">
+                <img src="./assets/images/icon-order-confirmed.svg" alt="">
+            </div>
+    
+            <h2>Order Confirmed</h2>
+            <span>We hope you enjoy your food!</span>
+    
+           <div class="confirm-box">
+                <div class="order-item">
+                    <div class="order-confirm-item">
+                        <img class="order-thumbnail" src="./assets/images/image-baklava-thumbnail.jpg" alt="">
+                        <div>
+                            <div class="cart-item-name">Vanilla Panna Cotta</div>
+                            <div class="cart-value"><span class="quantity">x1</span><span class="cart-price">@ $6.50</span></div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="confirm-price">$23</span>
+                    </div>
+                </div>
+        
+                <div class="order-confirm-total">
+                    <div>Order Total</div>
+                    <span class="order-confirm-total-amount">$2233</span>
+                </div>
+           </div>
+           
+           <button class="start-new">Start New Order</button>
+
+
+        </div>
     </div>
 
 </body>
