@@ -34,9 +34,9 @@ body {
     justify-content: center;
 }
 
-.desserts {
+/* .desserts {
     width: 950px;
-}
+} */
 
 .desserts h1 {
     margin-bottom: 20px;
@@ -96,7 +96,7 @@ body {
 }
 
 .item-type {
-    color: var(--Rose_300);
+    color: var(--Rose_500);
     font-size: 0.8rem;
 }
 
@@ -110,7 +110,7 @@ body {
 }
 
 .cart {
-    width: 350px;
+    width: 500px;
     height: fit-content;
     background-color: white;
     padding: 20px;
@@ -370,4 +370,34 @@ body {
 
 .start-new:hover {
     filter: brightness(80%);
+}
+
+@media screen and (max-width: 700px) {
+
+    /* .menu-box {
+        width: 700px;
+    } */
+
+    .container {
+        display: block;
+    }
+
+    .cart {
+        margin: auto;
+        width: unset;
+    }
+
+    .menu-box {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 480px){
+    .item {
+        width: fit-content;
+    }
+
+    .container {
+        padding: 20px;
+    }
 }
