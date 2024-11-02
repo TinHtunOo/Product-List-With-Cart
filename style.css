@@ -70,7 +70,7 @@ body {
     padding: 10px 15px;
     border-radius: 50px;
     border: 1px solid var(--Rose_300);
-    width: fit-content;
+    width: 125px;
     position: relative;
     margin: -25px auto 0 auto;
     background-color: aliceblue;
@@ -83,9 +83,27 @@ body {
     border: 1px solid var(--Red);
 }
 
-.order-box > img {
+.before-click {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.before-click  img {
     width: 16px;
     margin-right:5px ;
+}
+
+.after-click {
+    width: 100%;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--Rose_100);
+}
+
+.after-click i:hover {
+    color: var(--Rose_900);
 }
 
 .item-info {
