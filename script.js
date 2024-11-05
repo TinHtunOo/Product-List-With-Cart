@@ -1,4 +1,14 @@
 const menuBox = document.querySelector(".menu-box");
+const cartNoItem = document.querySelector(".cart-no-item");
+const cartWithItem = document.querySelector(".cart-with-item");
+const cartItemBox = document.querySelector(".cart-item-box");
+const orderTotal = document.querySelector(".order-total");
+const cartCount = document.querySelector(".cart-count");
+
+let add = true;
+let cartArray = [];
+let totalAmount = [];
+let cartCountValue = 0;
 
 const img_array = [
   "waffle",
@@ -13,15 +23,15 @@ const img_array = [
 ];
 
 const menuItems = [
-  { name: "Waffle with Berries", type: "Waffle", price: "6.50" },
-  { name: "Vanilla Bean Crème Brûlée", type: "Crème Brûlée", price: "7.00" },
-  { name: "Macaron Mix of Five", type: "Macaron", price: "8.00" },
-  { name: "Classic Tiramisu", type: "Tiramisu", price: "5.50" },
-  { name: "Pistachio Baklava", type: "Baklava", price: "4.00" },
-  { name: "Lemon Meringue Pie", type: "Pie", price: "5.00" },
-  { name: "Red Velvet Cake", type: "Cake", price: "4.50" },
-  { name: "Salted Caramel Brownie", type: "Brownie", price: "4.50" },
-  { name: "Vanilla Panna Cotta", type: "Panna Cotta", price: "6.50" },
+  { name: "Waffle with Berries", type: "Waffle", price: "6.50", id: "waffle"},
+  { name: "Vanilla Bean Crème Brûlée", type: "Crème Brûlée", price: "7.00", id: "creme-brulee"},
+  { name: "Macaron Mix of Five", type: "Macaron", price: "8.00", id: "macaron"},
+  { name: "Classic Tiramisu", type: "Tiramisu", price: "5.50", id: "tiramisu"},
+  { name: "Pistachio Baklava", type: "Baklava", price: "4.00", id: "baklava"},
+  { name: "Lemon Meringue Pie", type: "Pie", price: "5.00", id: "meringue"},
+  { name: "Red Velvet Cake", type: "Cake", price: "4.50", id: "cake"},
+  { name: "Salted Caramel Brownie", type: "Brownie", price: "4.50", id: "brownie"},
+  { name: "Vanilla Panna Cotta", type: "Panna Cotta", price: "6.50", id: "panna-cotta"},
 ];
 
 //create the element form array
@@ -57,6 +67,7 @@ function buildElement() {
     // Create the after-click div 
     const afterClickDiv = document.createElement('div'); 
     afterClickDiv.className = 'after-click';
+    afterClickDiv.id = anElement.id;
 
     // Create the minus icon 
     const minusIcon = document.createElement('i');
@@ -137,12 +148,121 @@ function changeImg(size) {
   });
 }
 
+//Change cart 
+function cartOn() {
+  cartNoItem.hidden = true;
+  cartWithItem.hidden = false;
+}
+
+function cartOff() {
+  cartNoItem.hidden = false;
+  cartWithItem.hidden = true;
+}
+
+// create cart item
+function creatCart(name, quantity, cartPrice, className){
+    // Create the main div with class "cart-item"
+    const cartItemDiv = document.createElement('div');
+    cartItemDiv.className = 'cart-item';
+
+    // Create the inner div
+    const innerDiv = document.createElement('div');
+
+    // Create the cart item name div
+    const cartItemNameDiv = document.createElement('div');
+    cartItemNameDiv.className = 'cart-item-name';
+    cartItemNameDiv.textContent = `${name}`;
+
+    // Create the cart value div
+    const cartValueDiv = document.createElement('div');
+    cartValueDiv.className = 'cart-value';
+    cartValueDiv.classList.add(`${className}`);
+
+    // Create the quantity span
+    const quantitySpan = document.createElement('span');
+    quantitySpan.className = 'quantity';
+    quantitySpan.textContent = `x${quantity}`;
+
+    // Create the cart price span
+    const cartPriceSpan = document.createElement('span');
+    cartPriceSpan.className = 'cart-price';
+    cartPriceSpan.textContent = `@ $${cartPrice}`;
+
+    // Create the amount span
+    const amountSpan = document.createElement('span');
+    amountSpan.className = 'amount';
+    let totalAmount = (quantity * cartPrice).toFixed(2);
+    amountSpan.textContent = `$${totalAmount}`;
+
+    // Append spans to the cart value div
+    cartValueDiv.appendChild(quantitySpan);
+    cartValueDiv.appendChild(cartPriceSpan);
+    cartValueDiv.appendChild(amountSpan);
+
+    // Append cart item name and cart value to the inner div
+    innerDiv.appendChild(cartItemNameDiv);
+    innerDiv.appendChild(cartValueDiv);
+
+    // Create the icon element
+    const iconElement = document.createElement('i');
+    iconElement.className = 'fa-regular fa-circle-xmark';
+
+    // Append inner div and icon to the main cart-item div
+    cartItemDiv.appendChild(innerDiv);
+    cartItemDiv.appendChild(iconElement);
+
+    // Finally, append the cartItemDiv to the document body or another container
+    cartItemBox.appendChild(cartItemDiv);
+    
+}
+
+function createCartItem(btn, orderDisplay){
+  let parentID = btn.parentElement.id;  
+  let itemInfo = menuItems.find(item => item.id === parentID);
+  let name = itemInfo.name;
+  let price = itemInfo.price;
+  if (add){
+    totalAmount.push(Number(price));
+  } else {
+    totalAmount.push(-Number(price));
+  }
+  if (!cartArray.includes(parentID)){
+    cartArray.push(parentID);
+    creatCart(name, orderDisplay , price, itemInfo.id);
+    
+  } else {
+    let itemClass = document.querySelector(`.${parentID}`);
+    itemClass.childNodes[0].textContent =  `x${orderDisplay}`;
+    itemClass.childNodes[2].textContent =  `$${(orderDisplay * price).toFixed(2)}`;
+  }
+  updateAmount();
+}
+
+function calculateTotal() {
+  const sum = totalAmount.reduce((accumulator, currentValue) => { return accumulator + currentValue; }, 0);
+  return sum.toFixed(2);
+}
+
+function updateAmount() {
+  orderTotal.lastChild.textContent =`$${calculateTotal()}`
+}
+
+function changeBack(itemID){
+  let item = document.querySelector(`#${itemID}`);
+      item.style.display = 'none';
+      item.previousSibling.style.display = 'flex';
+      item.parentElement.style.backgroundColor = 'aliceblue';
+      item.childNodes[1].textContent = '0';
+}
+
+
 buildElement();
 restoreImg();
 
 const orderBox = document.querySelectorAll('.order-box');
 const plusBtns = document.querySelectorAll('.fa-circle-plus');
 const minusBtns = document.querySelectorAll('.fa-circle-minus');
+
 
 orderBox.forEach((box)=>{
     box.addEventListener('click', ()=> {
@@ -152,28 +272,51 @@ orderBox.forEach((box)=>{
     })
 })
 
-
-
 plusBtns.forEach((plusBtn)=>{
     plusBtn.addEventListener('click', ()=>{
         let orderDisplay =  Number(plusBtn.previousSibling.textContent);
+        add = true;
+        cartOn();
         orderDisplay ++;
+        cartCountValue ++;
+        cartCount.textContent = cartCountValue;
         plusBtn.previousSibling.textContent = orderDisplay;
+        createCartItem(plusBtn, orderDisplay);
     })
 })
 
 minusBtns.forEach((minusBtn)=>{
     minusBtn.addEventListener('click', ()=>{
         let orderDisplay =  Number(minusBtn.nextSibling.textContent);
+        add = false;
         if (minusBtn.nextSibling.textContent == 0){
-            return
+          return
         } else {
             orderDisplay --;
+            cartCountValue --;
+            cartCount.textContent = cartCountValue;
             minusBtn.nextSibling.textContent = orderDisplay;
+            createCartItem(minusBtn, orderDisplay);
         }
     })
 })
 
+document.body.addEventListener('click', (event) => { 
+    if (event.target.classList.contains('fa-circle-xmark')) { 
+      let delbtn = event.target; 
+      let delNumber = delbtn.previousElementSibling.childNodes[1].childNodes[2].textContent.substring(1); 
+      let itemID = delbtn.previousElementSibling.childNodes[1].classList[1]
+      let newArray = cartArray.filter(element => element !== itemID);
 
+      changeBack(itemID);
+
+      cartArray = newArray;
+      totalAmount.push(-Number(delNumber)); 
+      delbtn.parentElement.remove(); 
+      updateAmount(); 
+      } 
+    });
 
 window.addEventListener("resize", () => restoreImg());
+
+
