@@ -4,6 +4,11 @@ const cartWithItem = document.querySelector(".cart-with-item");
 const cartItemBox = document.querySelector(".cart-item-box");
 const orderTotal = document.querySelector(".order-total");
 const cartCount = document.querySelector(".cart-count");
+const confirmOrder = document.querySelector(".confirm-order");
+const confirmBox = document.querySelector(".confirm-box");
+const overlay = document.querySelector(".overlay");
+const orderconfirmTotal = document.querySelector(".order-confirm-total-amount");
+const startOVer = document.querySelector(".start-new")
 
 let add = true;
 let cartArray = [];
@@ -212,10 +217,10 @@ function creatCart(name, quantity, cartPrice, className){
     cartItemDiv.appendChild(iconElement);
 
     // Finally, append the cartItemDiv to the document body or another container
-    cartItemBox.appendChild(cartItemDiv);
-    
+    cartItemBox.appendChild(cartItemDiv);    
 }
 
+// Build cart item when quantity change
 function createCartItem(btn, orderDisplay){
   let parentID = btn.parentElement.id;  
   let itemInfo = menuItems.find(item => item.id === parentID);
@@ -238,21 +243,78 @@ function createCartItem(btn, orderDisplay){
   updateAmount();
 }
 
+// Calculate Total amount
 function calculateTotal() {
   const sum = totalAmount.reduce((accumulator, currentValue) => { return accumulator + currentValue; }, 0);
   return sum.toFixed(2);
 }
 
+// Update total amount display
 function updateAmount() {
   orderTotal.lastChild.textContent =`$${calculateTotal()}`
 }
 
+// change back to start when cross is click
 function changeBack(itemID){
   let item = document.querySelector(`#${itemID}`);
       item.style.display = 'none';
       item.previousSibling.style.display = 'flex';
       item.parentElement.style.backgroundColor = 'aliceblue';
       item.childNodes[1].textContent = '0';
+}
+
+// create order confirmation item 
+function createOrderConfirmation() {
+  overlay.style.display = "flex";
+  let cartItems = document.querySelectorAll(".cart-item");
+  cartItems.forEach((cartItem)=> {
+    let name = cartItem.childNodes[0].childNodes[0].textContent;
+    let quantity = cartItem.childNodes[0].childNodes[1].childNodes[0].textContent;
+    let price = cartItem.childNodes[0].childNodes[1].childNodes[1].textContent;
+    let total_amount = cartItem.childNodes[0].childNodes[1].childNodes[2].textContent;
+    let nameClass = cartItem.childNodes[0].childNodes[1].classList[1];
+    if (quantity == 'x0'){
+      return
+    } else {
+      createOrderConfirmationElement(name, quantity, price, total_amount, nameClass);
+    }
+    orderconfirmTotal.textContent = `$${calculateTotal()}`
+  })
+}
+
+function createOrderConfirmationElement(name, quantity, price, total_amount, nameClass) {
+  confirmBox.innerHTML += `<div class="order-item">
+                                  <div class="order-confirm-item">
+                                      <img class="order-thumbnail" src="./assets/images/image-${nameClass}-thumbnail.jpg" alt="">
+                                      <div>
+                                          <div class="cart-item-name">${name}</div>
+                                          <div class="cart-value"><span class="quantity">${quantity}</span><span class="cart-price">${price}</span></div>
+                                      </div>
+                                  </div>
+                                  <div>
+                                      <span class="confirm-price">${total_amount}</span>
+                                  </div>`
+}
+
+function resetAll(){
+  confirmBox.innerHTML = '';
+  cartItemBox.innerHTML = '';
+  add = true;
+  cartArray = [];
+  totalAmount = [];
+  cartCountValue = 0;
+  orderBox.forEach((box)=>{
+        box.firstChild.style.display = 'flex';
+        box.lastChild.style.display = 'none';
+        box.style.backgroundColor = 'aliceblue';
+        box.childNodes[1].childNodes[1].textContent = 0;
+        box.previousElementSibling.style.border = '1px solid var(--Red_300)'
+  })
+  overlay.style.display = "none";
+  orderconfirmTotal.textContent = `$${calculateTotal()}`;
+  cartCount.textContent = cartCountValue;
+  cartOff();
+  updateAmount();
 }
 
 
@@ -263,14 +325,18 @@ const orderBox = document.querySelectorAll('.order-box');
 const plusBtns = document.querySelectorAll('.fa-circle-plus');
 const minusBtns = document.querySelectorAll('.fa-circle-minus');
 
-
+// Event Listeners
 orderBox.forEach((box)=>{
     box.addEventListener('click', ()=> {
         box.firstChild.style.display = 'none';
         box.lastChild.style.display = 'flex';
         box.style.backgroundColor = 'var(--Red)';
+        box.previousElementSibling.style.border = '1px solid var(--Red)'
     })
 })
+
+
+
 
 plusBtns.forEach((plusBtn)=>{
     plusBtn.addEventListener('click', ()=>{
@@ -316,6 +382,10 @@ document.body.addEventListener('click', (event) => {
       updateAmount(); 
       } 
     });
+
+confirmOrder.addEventListener("click", () => createOrderConfirmation());
+
+startOVer.addEventListener("click", ()=> resetAll())
 
 window.addEventListener("resize", () => restoreImg());
 
